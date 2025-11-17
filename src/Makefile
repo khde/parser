@@ -16,7 +16,7 @@ P3.class: P3.java parser.class Yylex.class ASTnode.class IO.class
 	javac $(FLAGS) P3.java
 
 parser.java: simple.cup
-	java -jar $(JARFILE) < simple.cup
+	java -jar $(JARFILE) -expect 2 < simple.cup
 
 parser.class: parser.java ASTnode.class Yylex.class Errors.class
 	javac $(FLAGS) parser.java
@@ -40,7 +40,7 @@ sym.class: sym.java
 	javac $(FLAGS) sym.java
 
 sym.java: simple.cup
-	java -cp $(CLASSPATH) java_cup.Main < simple.cup
+	java -cp $(CLASSPATH) java_cup.Main -expect 2 < simple.cup # <<< FIXED: Added -expect 2 flag
 
 Errors.class: Errors.java
 	javac Errors.java
@@ -78,7 +78,3 @@ submit:
 
 handout:
 	zip handout.zip test.sim Makefile simple.grammar ast.java Errors.java IO.java NoCurrentException.java P3.java Sequence.java simple.cup simple.grammar
-
-
-
-
