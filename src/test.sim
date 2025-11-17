@@ -1,3 +1,9 @@
 public class Hello {
 static int x;
+static void main() {
+int y;
+if (true) {
+System.out.println("Hello Simple!");
+}
+}
 }
