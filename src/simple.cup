@@ -159,7 +159,7 @@ id ::= ID:i
 
 stmtList ::= stmtList:l stmt:s
             {: l.addToEnd(s); RESULT = l; :}
-           | /* empty */
+           | 
             {: RESULT = new Sequence(); :}
          ;
 
@@ -225,7 +225,7 @@ switchStmt ::= SWITCH LPAREN exp:e RPAREN LCURLY switchGroupList:sg RCURLY
 
 switchGroupList ::= switchGroupList:l switchGroup:g
                    {: l.addToEnd(g); RESULT = l; :}
-                  | /* empty */
+                  |
                    {: RESULT = new Sequence(); :}
                 ;
 
