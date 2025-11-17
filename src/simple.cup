@@ -82,13 +82,12 @@ non terminal TrueNode         trueLit;
 non terminal FalseNode        falseLit;
 
 /* Associativity */
-precedence right   POWER, NOT;
-precedence right   UMINUS;
-precedence left    TIMES, DIVIDE, MOD;
-precedence left    PLUS, MINUS;
+precedence left OR;
+precedence left AND;
 precedence nonassoc EQUALS, NOTEQUALS, LESS, GREATER, LESSEQ, GREATEREQ;
-precedence left    AND;
-precedence left    OR;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE, MOD;
+precedence right POWER, NOT, UMINUS;
 
 start with program;
 
