@@ -19,10 +19,6 @@ parser code {:
     }
 :};
 
-/* ------------------------------------------------- */
-/* Terminals                                         */
-/* ------------------------------------------------- */
-
 /* Keywords */
 terminal TokenVal       PUBLIC, CLASS, STATIC, INT, BOOLEAN, STRING, VOID;
 terminal TokenVal       TRUE, FALSE, IF, ELSE, NO_ELSE, WHILE, DO;
@@ -45,10 +41,6 @@ terminal TokenVal       NOT, AND, OR;
 terminal TokenVal       EQUALS, NOTEQUALS;
 terminal TokenVal       LESS, GREATER, LESSEQ, GREATEREQ;
 terminal TokenVal       UMINUS;
-
-/* ------------------------------------------------- */
-/* Non-terminals                                     */
-/* ------------------------------------------------- */
 
 non terminal ProgramNode      program;
 non terminal ClassBodyNode    classBody;
