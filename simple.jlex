@@ -30,6 +30,23 @@ class IntLitTokenVal extends TokenVal {
 }
 
 
+class StringLitTokenVal extends TokenVal {
+    String stringVal;
+    StringLitTokenVal(int l, int c, String val) {
+        super(l,c);
+        this.stringVal = val;
+    }
+}
+
+class IdTokenVal extends TokenVal {
+    String idVal;
+    IdTokenVal(int l, int c, String val) {
+        super(l,c);
+        this.idVal = val;
+    }
+}
+
+
 // The following class is used to keep track of the character number at which
 // the current token starts on its line.
 class CharNum {
@@ -57,15 +74,12 @@ return new Symbol(sym.EOF);
 
 %%
 
-{DIGIT}+   {// NOTE: the following computation of the integer value does NOT
-	    //       check for overflow.  This must be changed.
-	    int val = (new Integer(yytext())).intValue();
-	    Symbol S = new Symbol(sym.INTLITERAL,
-			          new IntLitTokenVal(yyline+1, CharNum.num, val)
-				 );
-	    CharNum.num += yytext().length();
-	    return S;
-	   }
+{DIGIT}+   {
+    int val = (new Integer(yytext())).intValue();
+    Symbol S = new Symbol(sym.INTLITERAL, new IntLitTokenVal(yyline+1, CharNum.num, val));
+    CharNum.num += yytext().length();
+    return S;
+}
 
 {WHITESPACE}+  {CharNum.num += yytext().length();}
 
@@ -89,7 +103,7 @@ return new Symbol(sym.EOF);
 
 // Identifiers
 {IDENTIFIER} {
-    Symbol S = new Symbol(sym.ID, new TokenVal(yyline+1, CharNum.num));
+    Symbol S = new Symbol(sym.ID, new IdTokenVal(yyline+1, CharNum.num, yytext()));
     CharNum.num += yytext().length();
     return S;
 }
@@ -106,7 +120,9 @@ return new Symbol(sym.EOF);
 "-"     { CharNum.num++; return new Symbol(sym.MINUS, new TokenVal(yyline+1, CharNum.num)); }
 "*"     { CharNum.num++; return new Symbol(sym.TIMES, new TokenVal(yyline+1, CharNum.num)); }
 "/"     { CharNum.num++; return new Symbol(sym.DIVIDE, new TokenVal(yyline+1, CharNum.num)); }
+"%"     { CharNum.num++; return new Symbol(sym.MOD, new TokenVal(yyline+1, CharNum.num)); }
 "!"     { CharNum.num++; return new Symbol(sym.NOT, new TokenVal(yyline+1, CharNum.num)); }
+"**"    { CharNum.num += 2; return new Symbol(sym.POWER, new TokenVal(yyline+1, CharNum.num)); }
 "&&"    { CharNum.num += 2; return new Symbol(sym.AND, new TokenVal(yyline+1, CharNum.num)); }
 "||"    { CharNum.num += 2; return new Symbol(sym.OR, new TokenVal(yyline+1, CharNum.num)); }
 "=="    { CharNum.num += 2; return new Symbol(sym.EQUALS, new TokenVal(yyline+1, CharNum.num)); }
@@ -147,7 +163,8 @@ return new Symbol(sym.EOF);
             CharNum.num++;
         }
     }
-    return new Symbol(sym.STRINGLITERAL, new TokenVal(yyline+1, CharNum.num));
+    String str = yytext().substring(1, yytext().length() - 1);
+    return new Symbol(sym.STRINGLITERAL, new StringLitTokenVal(yyline+1, CharNum.num, str));
 }
 
 // Invalid chars
